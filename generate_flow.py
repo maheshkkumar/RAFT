@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import torch
 from PIL import Image
+from tqdm import tqdm
 
 from core.raft import RAFT
 from core.utils import flow_viz
@@ -46,15 +47,16 @@ def demo(args):
     model.eval()
     
     os.makedirs(args.output_path, exist_ok=True)
-
+    
     with torch.no_grad():
         
-        left_images = sorted(glob.glob(os.path.join(args.input_path, 'left', '*.png')))
-        right_images = sorted(glob.glob(os.path.join(args.input_path, 'right', '*.png')))
+        left_images = sorted(glob.glob(os.path.join(args.input_path, 'left', '*.jpg')))
+        right_images = sorted(glob.glob(os.path.join(args.input_path, 'right', '*.jpg')))
         
-        assert os.path.basename(left_images[0].replace('left', 'right')) == os.path.basename(right_images[0])
+        assert len(left_images) == len(right_images), "left and right images must have the same number of images"
+        assert os.path.basename(left_images[0].replace('left', 'right')) == os.path.basename(right_images[0]), "left and right images must have the same names"
         
-        for imfile1, imfile2 in zip(left_images, right_images):
+        for imfile1, imfile2 in tqdm(zip(left_images, right_images), total=len(left_images)):
             image1 = load_image(imfile1)
             image2 = load_image(imfile2)
 
@@ -67,14 +69,14 @@ def demo(args):
             lr_flow_up = lr_flow_up[0].permute(1,2,0).cpu().numpy()
             rl_flow_up = rl_flow_up[0].permute(1,2,0).cpu().numpy()
             
-            lr_flow = os.path.basename(imfile1).replace('left', 'left_right').replace('.png', '.flo')
-            rl_flow = os.path.basename(imfile2).replace('right', 'right_left').replace('.png', '.flo')
+            lr_flow = os.path.basename(imfile1).replace('left', 'left_right').replace('.jpg', '.flo')
+            rl_flow = os.path.basename(imfile2).replace('right', 'right_left').replace('.jpg', '.flo')
             
             lr_out_path = os.path.join(args.output_path, lr_flow)
             rl_out_path = os.path.join(args.output_path, rl_flow)
             
-            writeFlow(lr_flow_up, lr_out_path)
-            writeFlow(rl_flow_up, rl_out_path)
+            writeFlow(lr_out_path, lr_flow_up)
+            writeFlow(rl_out_path, rl_flow_up)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
