@@ -1,18 +1,18 @@
 # Data loading based on https://github.com/NVIDIA/flownet2-pytorch
 
-import numpy as np
-import torch
-import torch.utils.data as data
-import torch.nn.functional as F
-
-import os
 import math
+import os
+import os.path as osp
 import random
 from glob import glob
-import os.path as osp
 
-from utils import frame_utils
-from utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+import numpy as np
+import torch
+import torch.nn.functional as F
+import torch.utils.data as data
+
+from core.utils import frame_utils
+from core.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class FlowDataset(data.Dataset):
