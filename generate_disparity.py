@@ -16,6 +16,8 @@ def min_max(img):
 
 def flow_to_disp(args):
     
+    os.makedirs(args.output_path, exist_ok=True)
+    
     # read LR flow files
     lr_flow_list = sorted(glob(args.flow_path + '/*left_right.flo'))
     print(f"Processing {len(lr_flow_list)} LR flow files")
