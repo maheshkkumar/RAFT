@@ -17,7 +17,7 @@ def min_max(img):
 def flow_to_disp(args):
     
     # read LR flow files
-    lr_flow_list = sorted(glob(args.lr_flow_dir + '/*left_right.flo'))
+    lr_flow_list = sorted(glob(args.flow_path + '/*left_right.flo'))
     print(f"Processing {len(lr_flow_list)} LR flow files")
     
     for lr_flow_path in tqdm(lr_flow_list, total=len(lr_flow_list)):
@@ -32,7 +32,7 @@ def flow_to_disp(args):
         disparity = Image.fromarray(disparity.astype(np.uint16))
         
         base_name = os.path.basename(lr_flow_path).split('.')[0].replace('left_right', 'disparity')
-        output_path = os.path.join(args.output_dir, f"{base_name}.png")
+        output_path = os.path.join(args.output_path, f"{base_name}.png")
         
         # save image
         disparity.save(output_path)
