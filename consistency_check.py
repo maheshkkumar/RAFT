@@ -59,8 +59,8 @@ def consistency_mask(im_ref, im_tgt, flow, threshold, diff_func=sse):
 def check_consistency(args):
     
     # LR, RL flow
-    lr_flow_list = sorted(glob(args.lr_flow_dir + '/*left_right.flo'))
-    rl_flow_list = sorted(glob(args.rl_flow_dir + '/*right_left.flo'))
+    lr_flow_list = sorted(glob(args.input_path + '/*left_right.flo'))
+    rl_flow_list = sorted(glob(args.input_path + '/*right_left.flo'))
     
     assert len(lr_flow_list) == len(rl_flow_list)
     
