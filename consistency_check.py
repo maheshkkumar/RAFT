@@ -82,7 +82,7 @@ def check_consistency(args):
         
         # save mask
         img_name = os.path.basename(flow_pair[0]).split('.')[0].replace('left_right', 'mask')
-        output_path = os.path.join(args.output_dir, f"{img_name}.png")
+        output_path = os.path.join(args.output_path, f"{img_name}.png")
         
         mask = Image.fromarray(mask.astype(np.uint8) * 255).convert('L')
         mask.save(output_path)
