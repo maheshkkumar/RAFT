@@ -58,6 +58,8 @@ def consistency_mask(im_ref, im_tgt, flow, threshold, diff_func=sse):
 
 def check_consistency(args):
     
+    os.makedirs(args.output_path, exist_ok=True)
+    
     # LR, RL flow
     lr_flow_list = sorted(glob(args.input_path + '/*left_right.flo'))
     rl_flow_list = sorted(glob(args.input_path + '/*right_left.flo'))
